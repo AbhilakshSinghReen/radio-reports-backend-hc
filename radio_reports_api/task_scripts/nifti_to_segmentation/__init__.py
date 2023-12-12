@@ -1,0 +1,1 @@
+from .nifti_to_segmentation import run_total_segmentator_on_nii_image

@@ -1,0 +1,14 @@
+**/__pycache__/**
+build
+cache/*
+!cache/.gitkeep
+media/segment-meshes/*
+!media/segment-meshes/.gitkeep
+hc_data/models/*
+!hc_data/models/.gitkeep
+hc_data/segmentations/*
+!hc_data/segmentations/.gitkeep
+*.sqlite3
+**/*.gltf
+**/*.nii.gz
+.env
