@@ -40,12 +40,14 @@ class AddReportAPIView(APIView):
         
         nifti_image_file = request.FILES.get('niftiImage')
         report_data = request.data.get('reportData')
+        report_metadata = request.data.get('reportMetadata')
 
         report_media_id = unique_str()
         nii_file_name, nii_file_path = save_file_to_cache(nifti_image_file, report_media_id)
         
         new_report = Report.objects.create(
             report_media_id=report_media_id,
+            report_metadata=report_metadata,
             meshes_metadata=json.dumps({}),
             original_report=report_data,
             simplified_reports=json.dumps({}),
