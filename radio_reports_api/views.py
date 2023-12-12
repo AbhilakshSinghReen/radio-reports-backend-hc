@@ -108,6 +108,7 @@ class AskQuestionBasedOnReportAPIView(APIView):
 
     def post(self, request):
         report_id = request.data.get('reportId', None)
+        language = request.data.get('language', None)
         # TODO: return bad response if reportId not given
 
         try:
@@ -138,7 +139,7 @@ class AskQuestionBasedOnReportAPIView(APIView):
         original_report_data = report_object.original_report
         simplified_reports = json.loads(report_object.simplified_reports)
         
-        # TODO: get the answer from the LLM
+        # TODO: get the answer from the LLM - pass language as a param too
         answer = reverse_words_in_str(question_text)
 
         return Response({
