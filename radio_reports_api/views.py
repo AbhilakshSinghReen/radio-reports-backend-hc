@@ -17,6 +17,7 @@ from radio_reports_api.cloud_storage import (
 )
 from radio_reports_api.utils import (
     select_random_segment_names,
+    reverse_words_in_str,
 )
 from radio_reports_api.serializers import (
     ReportSerializer,
@@ -99,3 +100,51 @@ class GetReportAPIView(APIView):
                 'report': report_serializer.data,
             },
         }, status=status.HTTP_200_OK)
+
+
+class AskQuestionBasedOnReportAPIView(APIView):
+    permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser]
+
+    def post(self, request):
+        report_id = request.data.get('reportId', None)
+        # TODO: return bad response if reportId not given
+
+        try:
+            report_object = Report.objects.get(id=report_id)
+        except:
+            return Response({
+                'success': False,
+                'error': {
+                    'code': -1,
+                    'message': "Invalid reportId"
+                },
+            }, status=status.HTTP_404_NOT_FOUND)
+
+
+        question_text = request.data.get('questionText', None)
+        if question_text is None:
+            question_audio = request.FILES.get('questionAudio', None)
+            if question_audio is None:
+                return Response({
+                    'success': False,
+                    'error': {
+                        'code': -1,
+                        'message': "Either questionText or questionAudio must be provided",
+                    }
+                })
+            # convert question_audio to text
+        
+        original_report_data = report_object.original_report
+        simplified_reports = json.loads(report_object.simplified_reports)
+        
+        # TODO: get the answer from the LLM
+        answer = reverse_words_in_str(question_text)
+
+        return Response({
+            'success': True,
+            'result': {
+                'answer': answer,
+            },
+        })
+    

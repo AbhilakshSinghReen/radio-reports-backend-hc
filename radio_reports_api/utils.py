@@ -22,3 +22,9 @@ def select_random_segment_names(segment_names, min_selected_count=2, max_selecte
     to_select_count = random.randint(min_selected_count, max_selected_count)
     selected_segment_names = random.sample(segment_names, to_select_count)
     return selected_segment_names
+
+def reverse_words_in_str(input_str):
+    words = input_str.split()
+    reversed_words = list(reversed(words))
+    reversed_and_combined_str = ' '.join(reversed_words)
+    return reversed_and_combined_str
